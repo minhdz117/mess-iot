@@ -57,7 +57,7 @@ app.route('/webhook')
 
   })
   .get((req, res) => {
-    let mode = req.query['hub.mode'];
+    let mode  = req.query['hub.mode'];
     let token = req.query['hub.verify_token'];
     let challenge = req.query['hub.challenge'];
     if (mode && token) {
@@ -71,7 +71,7 @@ app.route('/webhook')
   });
 
 io.on('connection', socket => {
-  socket.emit('event', "0x3241234123"); // emit an event to the socket
+  socket.emit('event', "0x3241234123"); // emit an event to the socket 
   //io.emit('broadcast', /* … */); // emit an event to all connected sockets
   //socket.on('reply', () => { /* … */ }); // listen to the event
 });
