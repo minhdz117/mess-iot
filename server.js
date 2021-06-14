@@ -34,7 +34,9 @@ app.route('/webhook')
         // Gets the body of the webhook event
         let webhook_event = entry.messaging[0];
         console.log(webhook_event);
-
+        if (webhook_event.message.app_id){
+          io.sockets.emit('event',"hello")
+        }
 
         // Get the sender PSID
         let sender_psid = webhook_event.sender.id;
@@ -69,12 +71,6 @@ app.route('/webhook')
       }
     }
   });
-
-io.on('connection', socket => {
-  socket.emit('event', "0x3241234123"); // emit an event to the socket 
-  //io.emit('broadcast', /* … */); // emit an event to all connected sockets
-  //socket.on('reply', () => { /* … */ }); // listen to the event
-});
 
 const port = 3001
 //var server = https.createServer(credentials, app);
