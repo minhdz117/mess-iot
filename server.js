@@ -11,6 +11,9 @@ const io = require('socket.io')(server);
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
+var ledIRcode=[{name:"1102472602",code:"ON"},{name:"1102462402",code:"SLEEP"},{name:"1102478722",code:"OFF"},{name:"1102503202",code:"-"},{name:"1102470562",code:"+"}];
+
+
 //const privateKey = fs.readFileSync('./server.key', 'utf8');
 //const certificate = fs.readFileSync('./server.crt', 'utf8');
 //const credentials = { key: privateKey, cert: certificate };
@@ -35,7 +38,9 @@ app.route('/webhook')
         let webhook_event = entry.messaging[0];
         console.log(webhook_event);
         if (webhook_event.message.app_id){
-          io.sockets.emit('event',"hello")
+
+          let country = data.find(el => el.code === webhook_event.message.text.split(" ")[1]);
+          io.sockets.emit('event',country["name"])
         }
 
         // Get the sender PSID
