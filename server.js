@@ -11,7 +11,7 @@ const io = require('socket.io')(server);
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
-var ledIRcode=[{"name":"1102472602","code":"ON"},{"name":"1102462402","code":"SLEEP"},{"name":"1102478722","code":"OFF"},{"name":"1102503202","code":"-"},{"name":"1102470562","code":"+"}];
+var ledIRcode=[{name:"1102472602",code:"on"},{name:"1102462402",code:"sleep"},{name:"1102478722",code:"off"},{name:"1102503202",code:"-"},{name:"1102470562",code:"+"}];
 
 
 //const privateKey = fs.readFileSync('./server.key', 'utf8');
@@ -37,10 +37,11 @@ app.route('/webhook')
         // Gets the body of the webhook event
         let webhook_event = entry.messaging[0];
         console.log(webhook_event);
-        if (webhook_event.message.app_id){
-
+        if (!webhook_event.message.app_id& typeof webhook_event.message.text== "string"){
           let country = ledIRcode.find(el => el.code === webhook_event.message.text.split(" ")[1]);
-          io.sockets.emit('event',country["name"])
+          if (country){
+            io.sockets.emit('event',country["name"])
+          }
         }
 
         // Get the sender PSID
@@ -93,7 +94,7 @@ function handleMessage(sender_psid, received_message) {
 
     // Create the payload for a basic text message
     response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an image!`
+      "text": `You sent the message: "${received_message.text}"`
     }
   }
 
