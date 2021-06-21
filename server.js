@@ -12,8 +12,24 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
 var ledIRcode=[{name:"1102472602",code:"on"},{name:"1102462402",code:"sleep"},{name:"1102478722",code:"off"},{name:"1102503202",code:"-"},{name:"1102470562",code:"+"}];
-
-
+var statusOfAir= {header:"28c60008087f900c",mid:"00000004",byte9:"",byte10:"",byte11:"",byte16:""}
+var state=[{name:"on",val:"0"},{name:"off",val:"8"}]
+var temp=[{name:"16C",val:"0"},
+          {name:"17C",val:"8"},
+          {name:"18C",val:"4"},
+          {name:"19C",val:"c"},
+          {name:"20C",val:"2"},
+          {name:"21C",val:"a"},
+          {name:"22C",val:"6"},
+          {name:"23C",val:"e"},
+          {name:"24C",val:"1"},
+          {name:"25C",val:"9"},
+          {name:"26C",val:"5"},
+          {name:"27C",val:"d"},
+          {name:"28C",val:"3"},
+          {name:"29C",val:"b"},
+          {name:"30C",val:"7"},]
+var mode=[{name:"cold"}]
 //const privateKey = fs.readFileSync('./server.key', 'utf8');
 //const certificate = fs.readFileSync('./server.crt', 'utf8');
 //const credentials = { key: privateKey, cert: certificate };
@@ -37,12 +53,6 @@ app.route('/webhook')
         // Gets the body of the webhook event
         let webhook_event = entry.messaging[0];
         console.log(webhook_event);
-        if (!webhook_event.message.app_id& typeof webhook_event.message.text== "string"){
-          let country = ledIRcode.find(el => el.code === webhook_event.message.text.split(" ")[1]);
-          if (country){
-            io.sockets.emit('event',country["name"])
-          }
-        }
 
         // Get the sender PSID
         let sender_psid = webhook_event.sender.id;
@@ -91,6 +101,10 @@ function handleMessage(sender_psid, received_message) {
 
   // Check if the message contains text
   if (received_message.text) {
+      let country = ledIRcode.find(el => el.code ===received_message.text.split(" ")[1]);
+      if (country){
+        io.sockets.emit('event',country["name"])
+      }
 
     // Create the payload for a basic text message
     response = {
