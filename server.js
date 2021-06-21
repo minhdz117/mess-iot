@@ -95,7 +95,7 @@ function handleMessage(sender_psid, received_message) {
         let { tempC, mode, fanSpeed, swing, powerOn } = {tempC:"18",mode:"cool",fanSpeed:"auto",swing:"off",powerOn:"0"}
 
         var payload = makeFujitsuPayload(tempC, MODE[mode.toLowerCase()], FANSPEED[fanSpeed.toLowerCase()], SWING[swing.toLowerCase()], powerOn)
-        console.log(payload.toString())
+        console.log(payload.toString(16))
       }
     // Create the payload for a basic text message
     response = {
