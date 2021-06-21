@@ -1,6 +1,6 @@
 require('dotenv').config()
 const fuj = require('./src-js/fujitsu')
-const { makeFujitsuPayload, addProntoMetadata, MODE, FANSPEED, SWING } = fuj
+const { makeFujitsuPayload, MODE, FANSPEED, SWING } = fuj
 const express = require('express')
 //const fs = require('fs')
 const bodyParser = require('body-parser')
@@ -95,7 +95,7 @@ function handleMessage(sender_psid, received_message) {
         let { tempC, mode, fanSpeed, swing, powerOn } = {tempC:"18",mode:"cool",fanSpeed:"auto",swing:"off",powerOn:"0"}
 
         var payload = makeFujitsuPayload(tempC, MODE[mode.toLowerCase()], FANSPEED[fanSpeed.toLowerCase()], SWING[swing.toLowerCase()], powerOn)
-        console.log(payload)
+        console.log(payload.toString())
       }
     // Create the payload for a basic text message
     response = {
