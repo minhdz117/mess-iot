@@ -92,10 +92,15 @@ function handleMessage(sender_psid, received_message) {
         }
       }
       if (received_message.text.split(" ")[0]=="air"){
-        let { tempC, mode, fanSpeed, swing, powerOn } = {tempC:"18",mode:"cool",fanSpeed:"auto",swing:"off",powerOn:"0"}
-
+        let { tempC, mode, fanSpeed, swing, powerOn } = {tempC:"30",mode:"heat",fanSpeed:"auto",swing:"off",powerOn:"0"}
+        let hex="";
         var payload = makeFujitsuPayload(tempC, MODE[mode.toLowerCase()], FANSPEED[fanSpeed.toLowerCase()], SWING[swing.toLowerCase()], powerOn)
-        console.log(payload.toString(16))
+          for (var i = 0; i<16 ; i++){
+            hex += payload[i].toString(16)
+          }
+        if (hex){
+          io.sockets.emit('fuji',hex.toString())
+        }
       }
     // Create the payload for a basic text message
     response = {
