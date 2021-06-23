@@ -13,7 +13,8 @@ const io = require('socket.io')(server);
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
 var ledIRcode=[{val:"1102472602",name:"on"},{val:"1102462402",name:"sleep"},{val:"1102478722",name:"off"},{val:"1102503202",name:"-"},{val:"1102470562",name:"+"}];
-
+var airIRcode=[{name:"cool",val:[{name:"18",val:""},]},
+              {name:"head"}]
 //const privateKey = fs.readFileSync('./server.key', 'utf8');
 //const certificate = fs.readFileSync('./server.crt', 'utf8');
 //const credentials = { key: privateKey, cert: certificate };
@@ -92,15 +93,7 @@ function handleMessage(sender_psid, received_message) {
         }
       }
       if (received_message.text.split(" ")[0]=="air"){
-        let { tempC, mode, fanSpeed, swing, powerOn } = {tempC:"30",mode:"heat",fanSpeed:"auto",swing:"off",powerOn:"0"}
-        let hex="";
-        var payload = makeFujitsuPayload(tempC, MODE[mode.toLowerCase()], FANSPEED[fanSpeed.toLowerCase()], SWING[swing.toLowerCase()], powerOn)
-          for (var i = 0; i<16 ; i++){
-            hex += payload[i].toString(16)
-          }
-        if (hex){
-          io.sockets.emit('fuji',hex.toString())
-        }
+        
       }
     // Create the payload for a basic text message
     response = {
