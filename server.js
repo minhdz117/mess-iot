@@ -93,7 +93,7 @@ function handleMessage(sender_psid, received_message) {
         }
       }
       if (received_message.text.split(" ")[0]=="air"){
-        
+        io.sockets.emit('fuji',"123456,45649,7987987,564651,321354,564687968,")
       }
     // Create the payload for a basic text message
     response = {
