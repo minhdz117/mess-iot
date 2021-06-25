@@ -1,6 +1,4 @@
 require('dotenv').config()
-const fuj = require('./src-js/fujitsu')
-const { makeFujitsuPayload, MODE, FANSPEED, SWING } = fuj
 const express = require('express')
 //const fs = require('fs')
 const bodyParser = require('body-parser')
@@ -147,8 +145,6 @@ function handleMessage(sender_psid, received_message) {
             }
           }
         }
-      }
-    // Create the payload for a basic text message
       }
     response = {
       "text": `You sent the message: "${received_message.text}"`
